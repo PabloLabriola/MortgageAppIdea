@@ -1,0 +1,6 @@
+opentracing:
+  jaeger:
+    enabled: false
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092

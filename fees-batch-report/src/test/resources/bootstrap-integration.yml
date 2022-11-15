@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: FeesBatchReport
+  cloud:
+    config:
+      enabled: false

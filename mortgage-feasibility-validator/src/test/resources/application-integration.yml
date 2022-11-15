@@ -1,0 +1,105 @@
+HomePrice:
+  Threshold: 100000
+IncomePercentage: 0.3
+InterestRate:
+  Fixed: 1.2
+  Variable: 0.5
+MonthlyIncome:
+  Threshold: 100
+#Actuator
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+#Docker, logging and tracing
+opentracing:
+  jaeger:
+    enabled: false
+server:
+  port: 8089
+  error:
+    include-message: always
+    include-stacktrace: never
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+## H2 DATABASE PROPERTIES ##
+spring:
+  application:
+    name: MortgageFeasibility
+  datasource:
+    driverClassName: org.h2.Driver
+    password: password
+    url: jdbc:h2:mem:integrationtestsdb
+    username: sa
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  # KAFKA
+  kafka:
+    bootstrap-server: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.cognizant.mortgagefeasibilityvalidator.model.dtos
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  main:
+    allow-bean-definition-overriding: true
+  # RABBITMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtualHost: /
+    username: guest
+    password: guest
+
+kafka:
+  consumer:
+    group-id: MortgageModule
+  topic:
+    mortgage:
+      events: MORTGAGE_EVENTS
+
+# RabbitMQ
+rabbitmq:
+  mortgage:
+    confirmed:
+      queue: topic-exchange-feasibility-legal.queue-feasiblity-legal
+      exchange: topic-exchange-feasibility-legal
+      routing.key: mortgage.confirmed.key
+      binding.key: mortgage.confirmed.key
+
+swagger:
+  host: http://localhost:8760/mortgagefeasibility
+
+eureka:
+  client:
+    enabled: false
+
+

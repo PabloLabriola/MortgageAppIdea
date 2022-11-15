@@ -1,0 +1,37 @@
+server:
+  port: 8760
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: NqVyGOjEZTMVjq8p3sBNLdSb7qRBNFdGZ3XcOjHGXOnDZNFGD0.nOlRoTXYnrptG30T+mDQYzCT7w01Ot4VVYg==
+
+swagger:
+  config:
+    refreshrate: 20000
+
+management:
+  endpoints.web.exposure.include: "*"
+  metrics.export.prometheus.enabled: true
+
+opentracing.jaeger:
+  udp-sender:
+    host: orchestrator_jaeger_1
+    port: 6831
+  log-spans: true

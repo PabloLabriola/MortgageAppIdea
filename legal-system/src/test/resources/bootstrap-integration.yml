@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: LegalSystem
+  cloud:
+    config:
+      enabled: false

@@ -1,0 +1,24 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic:
+      name:
+        FEES_EVENTS
+    consumer:
+      group-id: FeesBatchReport
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+            value:
+              default:
+                type: com.cognizant.feesmodule.model.dtos.MortgageEventDto
+
+#second, minute, hour, day of month, month, day(s) of week
+report:
+  cron:
+    execution: '1 * * * * * '

@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+    elk:
+          image: sebp/elk
+          ports:
+                - "5601:5601"
+                - "9200:9200"
+                - "5044:5044"
+          environment:
+                  - discovery.type=single-node
+          volumes:
+                  - type: bind
+                    source: .\logstash\30-output.conf
+                      target: /etc/logstash/conf.d/30-output.conf
+
+                  - type: bind
+                    source: C:\elk\spring-boot-elk.log
+                    target: /var/log/spring-boot-elk.log

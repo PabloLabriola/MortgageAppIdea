@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: LegalSystem
+  cloud:
+    config:
+      failFast: true
+      uri: http://localhost:8888
+      retry.max-interval: 10000
+      retry.max-attempts: 15

@@ -1,0 +1,59 @@
+
+kafka:
+  consumer:
+    group-id: FeesModule
+  topic:
+    consumer:
+      mortgage:
+        events: MORTGAGE_EVENTS
+    producer:
+      fee:
+        events: FEES_EVENTS
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  application:
+    name: FeesModule
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+            value:
+              default:
+                type: com.cognizant.feesmodule.model.dtos.MortgageEventDto
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: com.cognizant.feesmodule.model.dtos.FeeEventDto
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+server:
+  port: 8087
+
+approved:
+  fee:
+    multiplier: 0.01
+
+rejectedonhold:
+  fee:
+    multiplier: 0.001
+
+datasource:
+  driverClassName:org.h2.Driver
+  password:password
+  url:jdbc:h2:mem:integrationtestsdb
+  username:sa

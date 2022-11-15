@@ -1,0 +1,74 @@
+server:
+  port: 8085
+  error:
+    include-message: always
+    include-stacktrace: never
+
+#Actuator
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+#Docker, logging and tracing
+opentracing:
+  jaeger:
+    log-spans: true
+    udp-sender:
+      host: orchestrator_jaeger_1
+      port: 6831
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+## H2 DATABASE PROPERTIES ##
+spring:
+  application:
+    name: LegalSystem
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:legal_system_db
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+# SPRING-CLOUD-STREAM - RABBIT
+  cloud:
+    stream:
+      function:
+        definition: eventConsumer
+        bindings:
+          eventConsumer-in-0: event-consumer
+      bindings:
+        event-consumer:
+          destination: topic-exchange-feasibility-legal
+          group: queue-feasiblity-legal
+      binders:
+        mortgageQueue:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: orchestrator_rabbitmq_1
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /

@@ -1,0 +1,39 @@
+datasource:
+  driverClassName: org.h2.Driver
+  password: password
+  url: jdbc:h2:mem:integrationtestsdb
+  username: sa
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  # SPRING-CLOUD-STREAM - RABBIT
+  cloud:
+    stream:
+      function:
+        definition: eventProducer;eventConsumer
+        bindings:
+          eventProducer-out-0: event-producer
+          eventConsumer-in-0: event-consumer
+      bindings:
+        event-consumer:
+          destination: topic-exchange-feasibility-legal
+          group: queue-feasiblity-legal
+        event-producer:
+          destination: topic-exchange-feasibility-legal
+      poller:
+        fixed-delay: 10000
+
+opentracing:
+  jaeger:
+    enabled: false
+
+eureka:
+  client:
+    enabled: false
+
+
+
+
+
+

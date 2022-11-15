@@ -1,0 +1,12 @@
+opentracing:
+  jaeger:
+    enabled: false
+spring:
+  cloud:
+    stream:
+      binders:
+        mortgageQueue:
+          environment:
+            spring:
+              rabbitmq:
+                host: orchestrator_rabbitmq_1

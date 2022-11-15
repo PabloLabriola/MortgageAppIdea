@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: FeesModule
+  cloud:
+    config:
+      enabled: false

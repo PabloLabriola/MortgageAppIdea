@@ -1,0 +1,24 @@
+opentracing:
+  jaeger:
+    log-spans: true
+    udp-sender:
+      host: orchestrator_jaeger_1
+      port: 16686
+spring:
+  application:
+    name: FeesBatchReportModule
+  kafka:
+    bootstrap-servers: orchestrator_kafka_1:29092
+    topic:
+      name:
+        FEES_EVENTS
+    consumer:
+      group-id: FeesBatchReport
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+#second, minute, hour, day of month, month, day(s) of week
+report:
+  cron:
+    execution: '0 0 1 ? * * '

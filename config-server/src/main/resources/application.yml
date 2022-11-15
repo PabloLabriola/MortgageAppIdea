@@ -1,0 +1,19 @@
+# HTTP Server
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  # Spring Cloud Config Server Repository
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/PabloLabriola/MortgageAppIdea
+          username: #Complete with own credentials
+          password: #Complete with own credentials
+
+  # Spring properties in case you use different profiles
+#  profiles:
+#    active: dev

@@ -1,0 +1,54 @@
+rejectedonhold:
+  fee:
+    multiplier: 0.001
+
+approved:
+  fee:
+    multiplier: 0.01
+
+opentracing:
+  jaeger:
+    log-spans: true
+    udp-sender:
+      host: orchestrator_jaeger_1
+      port: 16686
+kafka:
+  consumer:
+    group-id: FeesModule
+  producer:
+    group-id: FeesModule
+  topic:
+    producer:
+      fee:
+        events: FEES_EVENTS
+    consumer:
+      mortgage:
+        events: MORTGAGE_EVENTS
+
+server:
+  port: 8087
+  error:
+    include-message: always
+    include-stacktrace: never
+
+spring:
+  application:
+    name: FeesModule
+  kafka:
+    bootstrap-servers: orchestrator_kafka_1:29092
+    consumer:
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: com.cognizant.feesmodule.model.dtos.MortgageEventDto
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
